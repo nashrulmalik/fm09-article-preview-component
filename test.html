@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button with Tooltip</title>
+  <style>
+    .button {
+      width: 32px;
+      height: 32px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 50%; /* Creates a circular button */
+      cursor: pointer;
+    }
+
+    .tooltip {
+      position: absolute;
+      display: none;
+      background-color: #333;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      z-index: 999;
+      width: 248px;
+      height: 67px;
+    }
+
+    .tooltip:before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: -10px;
+      border-width: 10px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    .button {
+      margin: 200px;
+    }
+    
+  </style>
+</head>
+<body>
+  
+  <button id="myButton" class="button"></button>
+
+  <div id="tooltip" class="tooltip">
+    This is the tooltip text.
+  </div>
+
+  <script>
+    const button = document.getElementById('myButton');
+    const tooltip = document.getElementById('tooltip');
+
+    button.addEventListener('click', () => {
+      tooltip.style.display = 'block';
+      // Position the tooltip 16px above the button
+      tooltip.style.left = button.offsetLeft + (button.offsetWidth - tooltip.offsetWidth) / 2 + 'px'; 
+      tooltip.style.top = button.offsetTop - tooltip.offsetHeight - 16 + 'px'; 
+
+      // Add event listener to close tooltip on click outside
+      document.addEventListener('click', handleClickOutside);
+    });
+
+    function handleClickOutside(event) {
+      if (!tooltip.contains(event.target) && !button.contains(event.target)) {
+        tooltip.style.display = 'none';
+        document.removeEventListener('click', handleClickOutside);
+      }
+    }
+  </script>
+
+</body>
+</html>
